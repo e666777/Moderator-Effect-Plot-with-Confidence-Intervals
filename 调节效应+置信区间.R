@@ -1,0 +1,24 @@
+library(rockchalk)      
+data = read.csv("study5a-1.csv")    
+自变量 = data$laycen     
+因变量 = data$supportavg      
+调节变量 = data$entcen      
+model = lm(因变量 ~ 自变量 + 调节变量 + 自变量 * 调节变量)   
+summary(model)   
+plotSlopes(model, plotx = 自变量, modx = 调节变量, xlab = 
+             "横轴标签", ylab = "纵轴标签",modxVals="std.dev",interval = "confidence", 
+           lty = c(1, 2,3),legendArgs = list(x = "topright", title = "调节效应图"),plotPoints 
+           = FALSE)
+library(interactions)
+library(jtools)
+sim_slopes(model, pred = 自变量, modx = 调节变量,johnson_neyman = F)
+interact_plot(model, pred = 自变量, modx =调节变量,                                               
+              plot.points = F,                                            
+              x.label="自变量标签",                                            
+              y.label="因变量标签",                                            
+              legend.main="调节变量标签",interval = T,
+              int.type ="confidence",point.size = 1.5,line.thickness=1.2 )+
+              theme_apa(legend.pos="topright",legend.use.title =T,
+              legend.font.size = 14, x.font.size = 18, y.font.size = 18,
+              remove.y.gridlines =F,
+              remove.x.gridlines = F) 
